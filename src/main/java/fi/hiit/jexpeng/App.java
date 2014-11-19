@@ -6,6 +6,7 @@ import fi.hiit.jexpeng.runner.IExperimentRunner;
 import fi.hiit.jexpeng.runner.ITaskGroupRunner;
 import fi.hiit.jexpeng.runner.ITaskRunner;
 import fi.hiit.jexpeng.runner.InvalidExperimentRunIdException;
+import fi.hiit.jexpeng.runner.RandomOrderTaskGroupRunner;
 import fi.hiit.jexpeng.runner.RandomOrderTaskRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskGroupRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskRunner;
@@ -111,16 +112,14 @@ public class App {
             }
         });
 
-        /*
+
         // A Task runner which runs each the task sequentially
         ITaskRunner taskRunner = new SequentialTaskRunner();
-*/
-
-        // A Task runner which runs each the task in a random order
-        ITaskRunner taskRunner = new RandomOrderTaskRunner();
+        //ITaskRunner taskRunner = new RandomOrderTaskRunner();
 
         // A TaskGroup runner which runs each task group sequentially
         ITaskGroupRunner taskGroupRunner = new SequentialTaskGroupRunner(taskRunner);
+        //ITaskGroupRunner taskGroupRunner = new RandomOrderTaskGroupRunner(taskRunner);
 
         // A simple Experiment runner that starts the experiment and applies the task group runner
         IExperimentRunner experimentRunner = new SimpleExperimentRunner(taskGroupRunner);
