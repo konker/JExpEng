@@ -8,6 +8,7 @@ import fi.hiit.jexpeng.runner.ITaskRunner;
 import fi.hiit.jexpeng.runner.InvalidExperimentRunIdException;
 import fi.hiit.jexpeng.runner.RandomOrderTaskRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskGroupRunner;
+import fi.hiit.jexpeng.runner.SequentialTaskRunner;
 import fi.hiit.jexpeng.runner.SimpleExperimentRunner;
 
 
@@ -38,7 +39,7 @@ public class App {
         taskGroup2.setName("Real Tasks");
 
         // Create and add some tasks
-        for (int i=0; i<3; i++) {
+        for (int i=0; i<6; i++) {
             Task t = new SimpleTask();
             t.setName("Real Task " + i);
             t.getDefinition().putInt("dummy_param", i);
