@@ -2,10 +2,13 @@ package fi.hiit.jexpeng;
 
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.IEventListener;
+import fi.hiit.jexpeng.runner.IExperimentRunner;
+import fi.hiit.jexpeng.runner.ITaskGroupRunner;
+import fi.hiit.jexpeng.runner.ITaskRunner;
 import fi.hiit.jexpeng.runner.InvalidExperimentRunIdException;
-import fi.hiit.jexpeng.runner.SimpleExperimentRunner;
+import fi.hiit.jexpeng.runner.RandomOrderTaskRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskGroupRunner;
-import fi.hiit.jexpeng.runner.SequentialTaskRunner;
+import fi.hiit.jexpeng.runner.SimpleExperimentRunner;
 
 
 public class App {
@@ -107,14 +110,19 @@ public class App {
             }
         });
 
+        /*
         // A Task runner which runs each the task sequentially
-        SequentialTaskRunner taskRunner = new SequentialTaskRunner();
+        ITaskRunner taskRunner = new SequentialTaskRunner();
+*/
+
+        // A Task runner which runs each the task in a random order
+        ITaskRunner taskRunner = new RandomOrderTaskRunner();
 
         // A TaskGroup runner which runs each task group sequentially
-        SequentialTaskGroupRunner taskGroupRunner = new SequentialTaskGroupRunner(taskRunner);
+        ITaskGroupRunner taskGroupRunner = new SequentialTaskGroupRunner(taskRunner);
 
         // A simple Experiment runner that starts the experiment and applies the task group runner
-        SimpleExperimentRunner experimentRunner = new SimpleExperimentRunner(taskGroupRunner);
+        IExperimentRunner experimentRunner = new SimpleExperimentRunner(taskGroupRunner);
 
         // Create an ExperimentRunContext
         Subject subject1 = new Subject();
