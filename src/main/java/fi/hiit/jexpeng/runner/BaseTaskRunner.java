@@ -45,19 +45,30 @@ public abstract class BaseTaskRunner implements ITaskRunner {
     public void start(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
         mNumTasksToExecute = taskGroup.size();
         mTasksExecuted = 0;
-        mIndex = new int[mNumTasksToExecute];
 
+        // Initialize the index, allow subclass to override this
         initIndex();
+
+        // Fetch the starting position, must be implemented by the subclass
         mCurrentIndexPos = initIndexPos();
 
         execute(experimentRunContext, taskGroup);
     }
 
     public void execute(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
-
         taskGroup
             .get(mIndex[mCurrentIndexPos])
             .start(experimentRunContext, taskGroup);
+    }
+
+    /** Initialize the index */
+    protected void initIndex() {
+        mIndex = new int[mNumTasksToExecute];
+
+        // Initialize index to sequential order by default
+        for (int i=0; i<mIndex.length; i++) {
+            mIndex[i] = i;
+        }
     }
 
     /** Set the next index index value */
@@ -65,7 +76,4 @@ public abstract class BaseTaskRunner implements ITaskRunner {
 
     /** Set the next index index value */
     protected abstract int nextIndexPos(int currentIndexPos, int tasksExecuted);
-
-    /** Initialize the index */
-    protected abstract void initIndex();
 }

@@ -6,11 +6,10 @@ import fi.hiit.util.Util;
 public class RandomOrderTaskRunner extends BaseTaskRunner implements ITaskRunner {
     @Override
     protected void initIndex() {
-        // Initialize index to random order
-        for (int i=0; i<mIndex.length; i++) {
-            mIndex[i] = i;
-        }
+        // Initialize to default sequential index
+        super.initIndex();
 
+        // Shuffle the index
         Util.shuffleIntArrayInPlace(mIndex);
     }
 
