@@ -10,11 +10,9 @@ public class SimpleExperimentRunner implements IExperimentRunner {
         mTaskGroupRunner = taskGroupRunner;
     }
 
-    public void init(ExperimentRunContext experimentRunContext) throws InvalidExperimentRunIdException {
-        mTaskGroupRunner.init(experimentRunContext);
-    }
-
     public void start(ExperimentRunContext experimentRunContext) throws InvalidExperimentRunIdException {
+        mTaskGroupRunner.init(experimentRunContext);
+
         execute(experimentRunContext);
         mTaskGroupRunner.start(experimentRunContext);
     }

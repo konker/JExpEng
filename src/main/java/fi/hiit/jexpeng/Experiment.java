@@ -38,13 +38,6 @@ public class Experiment extends MetadataObject {
         // Initialize a ResultSet for this run
         mResultSets.put(experimentRunContext.getRunId(), new ResultSet());
 
-        // Add listener to chain events to application level listeners
-        experimentRunContext.addRunContextEventListener(new IRunContextEventListener() {
-            public void trigger(Event event) {
-                Experiment.this.notifyEvent(event);
-            }
-        });
-
         // Broadcast the event to the run context
         experimentRunContext.notifyRunContextEvent(new Event(EventType.EXPERIMENT_START, experimentRunContext));
     }

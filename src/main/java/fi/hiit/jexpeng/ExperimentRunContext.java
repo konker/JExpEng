@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.IRunContextEventListener;
 
+
 public class ExperimentRunContext {
     protected final Experiment mExperiment;
     protected final Subject mSubject;
@@ -42,6 +43,10 @@ public class ExperimentRunContext {
     }
 
     public void notifyRunContextEvent(Event event) {
+        // First notify the experiment for application listeners
+        mExperiment.notifyEvent(event);
+
+        // Notify system listeners
         for (IRunContextEventListener listener : mRunContextEventListeners) {
             listener.trigger(event);
         }
