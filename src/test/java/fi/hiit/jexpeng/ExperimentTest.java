@@ -69,7 +69,7 @@ public class ExperimentTest {
 
         Event event = new Event(null, null);
 
-        assertEquals(1, sCount);
+        assertEquals(0, sCount);
         sExperiment.notifyEvent(event);
         assertEquals(1, sCount);
     }

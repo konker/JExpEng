@@ -1,12 +1,14 @@
 package fi.hiit.jexpeng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.IEventListener;
 import fi.hiit.jexpeng.runner.IExperimentRunner;
 import fi.hiit.jexpeng.runner.ITaskGroupRunner;
 import fi.hiit.jexpeng.runner.ITaskRunner;
 import fi.hiit.jexpeng.runner.InvalidExperimentRunIdException;
-import fi.hiit.jexpeng.runner.RandomOrderTaskGroupRunner;
 import fi.hiit.jexpeng.runner.RandomOrderTaskRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskGroupRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskRunner;
@@ -90,7 +92,7 @@ public class App {
             public void trigger(Event event) {
                 switch (event.getEventType()) {
                     case TASK_START:
-                        System.out.println("\t\tTask: " + event.getTask().getName());
+                        System.out.println("\t\tTask start: " + event.getTask().getName());
                         // HERE IS WHERE YOU WOULD ACTUALL PRESENT THE TASK, ETC
                         // ...
                         // create a dummy result
@@ -106,6 +108,10 @@ public class App {
                         }
                         return;
 
+                    case TASK_END:
+                        System.out.println("\t\t\tTask end: " + event.getTask().getName());
+                        return;
+
                     default:
                         return;
                 }
@@ -113,12 +119,16 @@ public class App {
         });
 
 
+        List<ITaskRunner> taskRunners = new ArrayList<ITaskRunner>();
+
         // A Task runner which runs each the task sequentially
-        ITaskRunner taskRunner = new SequentialTaskRunner();
-        //ITaskRunner taskRunner = new RandomOrderTaskRunner();
+        taskRunners.add(new SequentialTaskRunner());
+
+        // A Task runner which runs tasks in a random order
+        taskRunners.add(new RandomOrderTaskRunner());
 
         // A TaskGroup runner which runs each task group sequentially
-        ITaskGroupRunner taskGroupRunner = new SequentialTaskGroupRunner(taskRunner);
+        ITaskGroupRunner taskGroupRunner = new SequentialTaskGroupRunner(taskRunners);
         //ITaskGroupRunner taskGroupRunner = new RandomOrderTaskGroupRunner(taskRunner);
 
         // A simple Experiment runner that starts the experiment and applies the task group runner

@@ -7,6 +7,6 @@ import fi.hiit.jexpeng.Subject;
 
 public interface IDataSink {
     public void init(Experiment experiment, Subject subject, int runId);
-    public void save(Result result);
+    public void write(Result result);
     public void close();
 }

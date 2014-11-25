@@ -1,0 +1,53 @@
+Experiment Start: Experiment 1
+
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: EXPERIMENT_START
+	TaskGroup Start: Training Tasks
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_GROUP_START
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@170a6001
+		Task: Training Task 0
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@170a6001
+		Task: Training Task 1
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@170a6001
+		Task: Training Task 2
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@170a6001
+	TaskGroup End: Training Tasks
+
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_GROUP_END
+	TaskGroup Start: Real Tasks
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_GROUP_START
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@75f10df7
+		Task: Real Task 4
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@75f10df7
+		Task: Real Task 0
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@75f10df7
+		Task: Real Task 3
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@75f10df7
+		Task: Real Task 1
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@75f10df7
+		Task: Real Task 5
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@75f10df7
+		Task: Real Task 2
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_END
+Ktask: fi.hiit.jexpeng.runner.BaseTaskRunner$1@75f10df7
+	TaskGroup End: Real Tasks
+
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_GROUP_END
+Experiment End: Experiment 1
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: EXPERIMENT_END
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START
+Kgroup: fi.hiit.jexpeng.runner.BaseTaskGroupRunner$1@7a4014a0: TASK_START

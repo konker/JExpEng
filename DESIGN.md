@@ -12,6 +12,9 @@ Experiment/Field Test Framework in Java
 https://facebook.github.io/planout/
 - UniformChoice(choices=['foo', 'bar'])
 
+- Should we be looking at something like combinatronics rather than reinventing it?
+    - *LOOK INTO THIS*
+
 - Is JExpEng backed by sqlite?
     - the design does seem to resemble a SQL schema
         - not sure if this is a good thing at this stage
@@ -178,10 +181,59 @@ ResultSet
     - Training tasks are presented in the order defined
     - Other Tasks are presented in a random order to each subject
 
+- e.g. 5
+    - 1 TaskGroup with 3 Tasks
+    - Tasks are presented in sequential order
+    - 9 Tasks are presented
+        - Tasks are recycled in the order defined
+            - 1,2,3,1,2,3,1,2,3
+        - (meaning that the size of the TG is not the same as the number of Tasks to be performed)
+
+- e.g. 6
+    - 1 TaskGroup with 3 Tasks
+    - Tasks are presented in a random order
+    - 10 Tasks are presented
+        - Tasks are recycled
+            - Each cycle is in a random order within itself?
+                - 3,2,1,1,2,3,2,3,1,2
+            - Tasks are randomly chosen 10 times from the pool?
+                - 3,2,1,3,3,2,2,1,1,2
+            - Both should be possible
+        - (meaning that the size of the TG is not the same as the number of Tasks to be performed)
+
+- e.g. 7
+    - 1 TaskGroup with 12 Tasks
+    - 7 Tasks are chosen randomly
+
 - other e.g.
     - Ordering of tasks is fixed, but not in the order defined?
     - The choice of the next task depends on the result of the previous task?
 
+- What is the purpose of TaskGrourRunner?
+    - To "choose" the order in which a TaskRunner is applied to the list of TaskGroups?
+    - To "choose" a TaskRunner for each TaskGroup in the list?
+    - To choose the order and which TaskRunner is applied to the list (i.e. both of hte above)?
+
+
+## Runners
+### Currently
+    - ExperimentRunner
+        - Has a TaskGroupRunner which it applies to the list of TGs
+
+    - TaskGroupRunner
+        - "runs" a TaskGroup
+        - Has a TaskRunner which it applies to the list of Ts contained in a TG
+
+    - TaskRuunner
+        - runs a Task
+
+### Should be?
+    - Move everything "up" one level
+    - ExperimentRunner
+        - chooses the order in which to run each TaskGroup in the Experiment
+
+    - TaskGroupRunner
+        - chooses the order in which to run each Task in the TaskGroup
 
 ## Data
 - IDataSink

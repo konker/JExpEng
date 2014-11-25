@@ -10,70 +10,75 @@ import fi.hiit.jexpeng.event.IRunContextEventListener;
 
 public abstract class BaseTaskRunner implements ITaskRunner {
     protected int mCurrentIndexPos;
-    protected int mTasksExecuted;
+    protected int mNumTasksExecuted;
     protected int mNumTasksToExecute;
-    protected int[] mIndex;
+    protected int[] mTaskIndex;
     protected IRunContextEventListener mRunContextEventListener;
 
     public void init(final ExperimentRunContext experimentRunContext) {
         mRunContextEventListener = new IRunContextEventListener() {
             public void trigger(Event event) {
-                if (event.getExperimentRunContext().getRunId() == experimentRunContext.getRunId()) {
-                    switch (event.getEventType()) {
-                        case TASK_END:
-                            mTasksExecuted++;
+                //System.out.println("Ktask: " + this);
+                switch (event.getEventType()) {
+                    case TASK_END:
+                        mNumTasksExecuted++;
 
-                            if (mTasksExecuted < mNumTasksToExecute) {
-                                mCurrentIndexPos = nextIndexPos(mCurrentIndexPos, mTasksExecuted);
-                                execute(experimentRunContext, event.getTaskGroup());
-                            }
-                            else {
-                                // End of the TaskGroup
-                                event.getTaskGroup().complete(experimentRunContext);
-                            }
+                        if (mNumTasksExecuted < mNumTasksToExecute) {
+                            // Start the next task
+                            mCurrentIndexPos = nextTaskIndexPos(mCurrentIndexPos, mNumTasksExecuted);
+                            execute(experimentRunContext, event.getTaskGroup());
+                        }
+                        else {
+                            // End of the TaskGroup
+                            experimentRunContext.removeRunContextEventListener(mRunContextEventListener);
+                            event.getTaskGroup().complete(experimentRunContext);
+                        }
 
-                        default:
-                            return;
-                    }
+                    default:
+                        return;
                 }
             }
         };
+
         experimentRunContext.addRunContextEventListener(mRunContextEventListener);
-        /*[FIXME: when should this listener be removed?]*/
     }
 
     public void start(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
         mNumTasksToExecute = taskGroup.size();
-        mTasksExecuted = 0;
+        mNumTasksExecuted = 0;
 
         // Initialize the index, allow subclass to override this
-        initIndex();
+        mTaskIndex = initTaskIndex(mNumTasksToExecute);
 
         // Fetch the starting position, must be implemented by the subclass
-        mCurrentIndexPos = initIndexPos();
+        mCurrentIndexPos = initTaskIndexPos();
 
+        // Start the execution process
         execute(experimentRunContext, taskGroup);
     }
 
     public void execute(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
+        // Get the current task according to the index and start it
         taskGroup
-            .get(mIndex[mCurrentIndexPos])
+            .get(mTaskIndex[mCurrentIndexPos])
             .start(experimentRunContext, taskGroup);
     }
 
     /** Initialize the index */
-    protected void initIndex() {
-        mIndex = new int[mNumTasksToExecute];
+    protected int[] initTaskIndex(int numTasksToExecute) {
+        int[] ret = new int[numTasksToExecute];
 
         // Initialize index to sequential order by default
-        for (int i=0; i<mIndex.length; i++) {
-            mIndex[i] = i;
+        for (int i=0; i<numTasksToExecute; i++) {
+            ret[i] = i;
         }
+
+        return ret;
     }
 
     /** Set the next index index value */
-    protected abstract int initIndexPos();
+    protected abstract int initTaskIndexPos();
 
     /** Set the next index index value */
-    protected abstract int nextIndexPos(int currentIndexPos, int tasksExecuted);
+    protected abstract int nextTaskIndexPos(int currentTaskIndexPos, int numTasksExecuted);
 }

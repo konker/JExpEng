@@ -5,21 +5,23 @@ import fi.hiit.util.Util;
 
 public class RandomOrderTaskRunner extends BaseTaskRunner implements ITaskRunner {
     @Override
-    protected void initIndex() {
+    protected int[] initTaskIndex(int numTasksToExecute) {
         // Initialize to default sequential index
-        super.initIndex();
+        int[] ret = super.initTaskIndex(numTasksToExecute);
 
         // Shuffle the index
-        Util.shuffleIntArrayInPlace(mIndex);
+        Util.shuffleIntArrayInPlace(ret);
+
+        return ret;
     }
 
     @Override
-    protected int initIndexPos() {
+    protected int initTaskIndexPos() {
         return 0;
     }
 
     @Override
-    protected int nextIndexPos(int currentIndexPos, int tasksExecuted) {
-        return currentIndexPos + 1;
+    protected int nextTaskIndexPos(int currentTaskIndexPos, int numTasksExecuted) {
+        return currentTaskIndexPos + 1;
     }
 }

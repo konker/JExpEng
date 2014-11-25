@@ -15,7 +15,7 @@ public class CsvDataSink implements IDataSink {
 
     }
 
-    public void save(Result result) {
+    public void write(Result result) {
         // TODO Auto-generated method stub
 
     }

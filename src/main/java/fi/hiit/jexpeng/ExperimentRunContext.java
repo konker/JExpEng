@@ -43,12 +43,14 @@ public class ExperimentRunContext {
     }
 
     public void notifyRunContextEvent(Event event) {
-        // First notify the experiment for application listeners
-        mExperiment.notifyEvent(event);
+        if (!mExperiment.isEnded()) {
+            // First notify the experiment for application listeners
+            mExperiment.notifyEvent(event);
 
-        // Notify system listeners
-        for (IRunContextEventListener listener : mRunContextEventListeners) {
-            listener.trigger(event);
+            // Notify system listeners
+            for (IRunContextEventListener listener : mRunContextEventListeners) {
+                listener.trigger(event);
+            }
         }
     }
 }

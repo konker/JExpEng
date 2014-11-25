@@ -1,29 +1,33 @@
 package fi.hiit.jexpeng.runner;
 
+import java.util.List;
+
 import fi.hiit.util.Util;
 
 
 public class RandomOrderTaskGroupRunner extends BaseTaskGroupRunner implements ITaskGroupRunner {
-    public RandomOrderTaskGroupRunner(ITaskRunner taskRunner) {
-        super(taskRunner);
+    public RandomOrderTaskGroupRunner(List<ITaskRunner> taskRunners) {
+        super(taskRunners);
     }
 
     @Override
-    protected void initIndex() {
+    protected int[] initTaskGroupIndex(int numTaskGroupsToExecute) {
         // Initialize to default sequential index
-        super.initIndex();
+        int[] ret = super.initTaskGroupIndex(numTaskGroupsToExecute);
 
         // Shuffle the index
-        Util.shuffleIntArrayInPlace(mIndex);
+        Util.shuffleIntArrayInPlace(ret);
+
+        return ret;
     }
 
     @Override
-    protected int initIndexPos() {
+    protected int initTaskGroupIndexPos() {
         return 0;
     }
 
     @Override
-    protected int nextIndexPos(int currentIndexPos, int tasksExecuted) {
-        return currentIndexPos + 1;
+    protected int nextTaskGroupIndexPos(int currentTaskGroupIndexPos, int numTaskGroupsExecuted) {
+        return currentTaskGroupIndexPos + 1;
     }
 }

@@ -21,6 +21,8 @@ public class Experiment extends MetadataObject {
     protected Map<Integer, ResultSet> mResultSets;
 
     protected Set<IEventListener> mEventListeners;
+    protected boolean mStarted;
+    protected boolean mEnded;
 
     public Experiment() {
         mTaskGroups = new ArrayList<TaskGroup>();
@@ -38,12 +40,23 @@ public class Experiment extends MetadataObject {
         // Initialize a ResultSet for this run
         mResultSets.put(experimentRunContext.getRunId(), new ResultSet());
 
+        mStarted = true;
+
         // Broadcast the event to the run context
         experimentRunContext.notifyRunContextEvent(new Event(EventType.EXPERIMENT_START, experimentRunContext));
     }
 
     public void complete(ExperimentRunContext experimentRunContext) {
         experimentRunContext.notifyRunContextEvent(new Event(EventType.EXPERIMENT_END, experimentRunContext));
+        mEnded = true;
+    }
+
+    public boolean isStarted() {
+        return mStarted;
+    }
+
+    public boolean isEnded() {
+        return mEnded;
     }
     /* }}} */
 
