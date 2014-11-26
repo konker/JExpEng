@@ -19,6 +19,7 @@ public class Result extends MetadataObject {
         mExperimentRunContext = experimentRunContext;
         mTaskGroup = taskGroup;
         mTask = task;
+        mTimestamp = new Date();
 
         mData = new DataBundle();
     }

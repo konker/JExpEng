@@ -1,44 +1,33 @@
 package fi.hiit.jexpeng;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.EventType;
 import fi.hiit.jexpeng.event.IEventListener;
-import fi.hiit.jexpeng.event.IRunContextEventListener;
-import fi.hiit.jexpeng.runner.InvalidExperimentRunIdException;
 import fi.hiit.util.MetadataObject;
 
 
 public class Experiment extends MetadataObject {
     protected List<TaskGroup> mTaskGroups;
-    protected Map<Integer, ResultSet> mResultSets;
 
     protected Set<IEventListener> mEventListeners;
     protected boolean mStarted;
-    protected boolean mEnded;
 
     public Experiment() {
         mTaskGroups = new ArrayList<TaskGroup>();
-        mResultSets = new HashMap<Integer, ResultSet>();
-
         mEventListeners = new CopyOnWriteArraySet<IEventListener>();
     }
 
     /* Life cycle methods {{{ */
-    public void start(ExperimentRunContext experimentRunContext) throws InvalidExperimentRunIdException {
-        if (mResultSets.containsKey(experimentRunContext.getRunId())) {
-            throw new InvalidExperimentRunIdException();
+    public void start(ExperimentRunContext experimentRunContext) throws StaleExperimentRunContext {
+        if (experimentRunContext.isEnded()) {
+            throw new StaleExperimentRunContext();
         }
-
-        // Initialize a ResultSet for this run
-        mResultSets.put(experimentRunContext.getRunId(), new ResultSet());
 
         mStarted = true;
 
@@ -48,15 +37,6 @@ public class Experiment extends MetadataObject {
 
     public void complete(ExperimentRunContext experimentRunContext) {
         experimentRunContext.notifyRunContextEvent(new Event(EventType.EXPERIMENT_END, experimentRunContext));
-        mEnded = true;
-    }
-
-    public boolean isStarted() {
-        return mStarted;
-    }
-
-    public boolean isEnded() {
-        return mEnded;
     }
     /* }}} */
 
@@ -99,15 +79,6 @@ public class Experiment extends MetadataObject {
 
     public Iterator<TaskGroup> taskGroupIterator() {
        return mTaskGroups.iterator();
-    }
-    /* }}} */
-
-    /* Result methods {{{ */
-    public void addResult(Result result) throws InvalidExperimentRunIdException {
-        if (!mResultSets.containsKey(result.getExperimentRunContext().getRunId())) {
-            throw new InvalidExperimentRunIdException();
-        }
-        mResultSets.get(result.getExperimentRunContext().getRunId()).add(result);
     }
     /* }}} */
 

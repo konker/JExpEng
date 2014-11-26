@@ -1,6 +1,7 @@
 package fi.hiit.jexpeng.runner;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
+import fi.hiit.jexpeng.StaleExperimentRunContext;
 
 
 public class SimpleExperimentRunner implements IExperimentRunner {
@@ -10,7 +11,7 @@ public class SimpleExperimentRunner implements IExperimentRunner {
         mTaskGroupRunner = taskGroupRunner;
     }
 
-    public void start(ExperimentRunContext experimentRunContext) throws InvalidExperimentRunIdException {
+    public void start(ExperimentRunContext experimentRunContext) throws StaleExperimentRunContext {
         // Initialize the task group runner
         mTaskGroupRunner.init(experimentRunContext);
 
@@ -21,7 +22,7 @@ public class SimpleExperimentRunner implements IExperimentRunner {
         mTaskGroupRunner.start(experimentRunContext);
     }
 
-    public void execute(ExperimentRunContext experimentRunContext) throws InvalidExperimentRunIdException {
+    public void execute(ExperimentRunContext experimentRunContext) throws StaleExperimentRunContext {
         experimentRunContext
                 .getExperiment()
                 .start(experimentRunContext);

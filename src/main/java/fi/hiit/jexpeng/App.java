@@ -3,12 +3,14 @@ package fi.hiit.jexpeng;
 import java.util.ArrayList;
 import java.util.List;
 
+import fi.hiit.data.CsvDataSink;
+import fi.hiit.data.DataException;
+import fi.hiit.data.IDataSink;
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.IEventListener;
 import fi.hiit.jexpeng.runner.IExperimentRunner;
 import fi.hiit.jexpeng.runner.ITaskGroupRunner;
 import fi.hiit.jexpeng.runner.ITaskRunner;
-import fi.hiit.jexpeng.runner.InvalidExperimentRunIdException;
 import fi.hiit.jexpeng.runner.RandomOrderTaskRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskGroupRunner;
 import fi.hiit.jexpeng.runner.SequentialTaskRunner;
@@ -65,15 +67,6 @@ public class App {
                         //[TODO: print out result set]
                         return;
 
-                    default:
-                        return;
-                }
-            }
-        });
-
-        experiment1.addEventListener(new IEventListener() {
-            public void trigger(Event event) {
-                switch (event.getEventType()) {
                     case TASK_GROUP_START:
                         System.out.println("\tTaskGroup Start: " + event.getTaskGroup().getName());
                         return;
@@ -82,15 +75,6 @@ public class App {
                         System.out.println("\tTaskGroup End: " + event.getTaskGroup().getName() + "\n");
                         return;
 
-                    default:
-                        return;
-                }
-            }
-        });
-
-        experiment1.addEventListener(new IEventListener() {
-            public void trigger(Event event) {
-                switch (event.getEventType()) {
                     case TASK_START:
                         System.out.println("\t\tTask start: " + event.getTask().getName());
                         // HERE IS WHERE YOU WOULD ACTUALL PRESENT THE TASK, ETC
@@ -103,7 +87,7 @@ public class App {
                         try {
                             event.getTask().complete(result);
                         }
-                        catch (InvalidExperimentRunIdException ex) {
+                        catch (DataException ex) {
                             ex.printStackTrace();
                         }
                         return;
@@ -117,7 +101,6 @@ public class App {
                 }
             }
         });
-
 
         List<ITaskRunner> taskRunners = new ArrayList<ITaskRunner>();
 
@@ -137,14 +120,40 @@ public class App {
         // Create an ExperimentRunContext
         Subject subject1 = new Subject();
         subject1.setName("Subject 1");
-        int runId1 = 23;
-        ExperimentRunContext experimentRunContext = new ExperimentRunContext(experiment1, subject1, runId1);
+        String runId1 = "run1";
+        ExperimentRunContext experimentRunContext1 = new ExperimentRunContext(experiment1, subject1, runId1);
 
-        // Run the experiment
+        Subject subject2 = new Subject();
+        subject2.setName("Subject 2");
+        String runId2 = "run2";
+        ExperimentRunContext experimentRunContext2 = new ExperimentRunContext(experiment1, subject2, runId2);
+
         try {
-            experimentRunner.start(experimentRunContext);
+            // Create a data sink
+            IDataSink csvDataSink1 = new CsvDataSink("./");
+
+            // Add a data sink to the run context
+            experimentRunContext1.addDataSink(csvDataSink1);
+
+            // Run the experiment
+            experimentRunner.start(experimentRunContext1);
+
+            // Create a data sink
+            IDataSink csvDataSink2 = new CsvDataSink("./");
+
+            // Add a data sink to the run context
+            experimentRunContext2.addDataSink(csvDataSink2);
+
+            // Try to run the experiment again
+            experimentRunner.start(experimentRunContext2);
+
+            // Try to run the experiment again (should fail)
+            experimentRunner.start(experimentRunContext2);
         }
-        catch (InvalidExperimentRunIdException ex) {
+        catch (DataException ex1) {
+            ex1.printStackTrace();
+        }
+        catch (StaleExperimentRunContext ex) {
             ex.printStackTrace();
         }
     }
