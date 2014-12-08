@@ -15,12 +15,12 @@ public abstract class MetadataObject {
         return mMetadata;
     }
 
-    public int getId() {
-        return mMetadata.getInt(ID_KEY);
+    public String getId() {
+        return mMetadata.getString(ID_KEY);
     }
 
-    public void setId(int id) {
-        mMetadata.putInt(ID_KEY, id);
+    public void setId(String id) {
+        mMetadata.putString(ID_KEY, id);
     }
 
     public String getName() {

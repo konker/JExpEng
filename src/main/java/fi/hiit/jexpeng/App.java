@@ -21,7 +21,7 @@ public class App {
     public static void main( String[] args ) {
         // Create an experiment
         Experiment experiment1 = new Experiment();
-        experiment1.setId(1);
+        experiment1.setId("Exp1");
         experiment1.setName("Experiment 1");
 
         // Create a TaskGroup
