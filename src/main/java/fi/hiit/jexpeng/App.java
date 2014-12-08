@@ -26,11 +26,13 @@ public class App {
 
         // Create a TaskGroup
         TaskGroup taskGroup1 = new TaskGroup();
+        taskGroup1.setId("tg-t1");
         taskGroup1.setName("Training Tasks");
 
         // Create and add some tasks
         for (int i=0; i<3; i++) {
             Task t = new SimpleTask();
+            t.setId("t" + i);
             t.setName("Training Task " + i);
             t.getDefinition().putInt("dummy_param", i);
             taskGroup1.add(t);
@@ -41,11 +43,13 @@ public class App {
 
         // Create a TaskGroup
         TaskGroup taskGroup2 = new TaskGroup();
+        taskGroup2.setId("tg-r1");
         taskGroup2.setName("Real Tasks");
 
         // Create and add some tasks
         for (int i=0; i<6; i++) {
             Task t = new SimpleTask();
+            t.setId("r" + i);
             t.setName("Real Task " + i);
             t.getDefinition().putInt("dummy_param", i);
             taskGroup2.add(t);
@@ -120,11 +124,13 @@ public class App {
         // Create an ExperimentRunContext
         Subject subject1 = new Subject();
         subject1.setName("Subject 1");
+        subject1.setId("subject1");
         String runId1 = "run1";
         ExperimentRunContext experimentRunContext1 = new ExperimentRunContext(experiment1, subject1, runId1);
 
         Subject subject2 = new Subject();
         subject2.setName("Subject 2");
+        subject2.setId("subject2");
         String runId2 = "run2";
         ExperimentRunContext experimentRunContext2 = new ExperimentRunContext(experiment1, subject2, runId2);
 

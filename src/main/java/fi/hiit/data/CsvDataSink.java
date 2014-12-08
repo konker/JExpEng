@@ -62,14 +62,14 @@ public class CsvDataSink implements IDataSink {
         // Basic data
         List<String> row = new ArrayList<String>();
         row.add(String.valueOf(result.getTimestamp().getTime()));
-        row.add(String.valueOf(result.getExperimentRunContext().getExperiment().getId()));
+        row.add(result.getExperimentRunContext().getExperiment().getId());
         row.add(result.getExperimentRunContext().getExperiment().getName());
-        row.add(String.valueOf(result.getExperimentRunContext().getSubject().getId()));
+        row.add(result.getExperimentRunContext().getSubject().getId());
         row.add(result.getExperimentRunContext().getSubject().getName());
         row.add(result.getExperimentRunContext().getRunId());
-        row.add(String.valueOf(result.getTaskGroup().getId()));
+        row.add(result.getTaskGroup().getId());
         row.add(result.getTaskGroup().getName());
-        row.add(String.valueOf(result.getTask().getId()));
+        row.add(result.getTask().getId());
         row.add(result.getTask().getName());
 
         // Custom data fields
