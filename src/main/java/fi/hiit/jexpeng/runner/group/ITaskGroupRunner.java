@@ -1,4 +1,4 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.group;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
 

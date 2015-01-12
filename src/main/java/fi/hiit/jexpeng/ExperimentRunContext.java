@@ -27,10 +27,15 @@ public class ExperimentRunContext {
         mRunContextEventListeners = new CopyOnWriteArraySet<IRunContextEventListener>();
         mDataSinks = new CopyOnWriteArraySet<IDataSink>();
 
-        // Add a listener for the end of the experiment run
+        // Add a listener for the start and end of the experiment run
         addRunContextEventListener(new IRunContextEventListener() {
+            @Override
             public void trigger(Event event) {
                 switch (event.getEventType()) {
+                    case EXPERIMENT_START:
+                        _start();
+                        break;
+
                     case EXPERIMENT_END:
                         _end();
                         break;
@@ -67,9 +72,15 @@ public class ExperimentRunContext {
         mDataSinks.remove(dataSink);
     }
 
+    public void writeSubjectData() throws DataException {
+        for (IDataSink dataSink : mDataSinks) {
+            dataSink.writeSubject(mSubject);
+        }
+    }
+
     public void addResult(Result result) throws DataException {
         for (IDataSink dataSink : mDataSinks) {
-            dataSink.write(result);
+            dataSink.writeResult(result);
         }
     }
 
@@ -89,6 +100,10 @@ public class ExperimentRunContext {
         for (IRunContextEventListener listener : mRunContextEventListeners) {
             listener.trigger(event);
         }
+    }
+
+    protected void _start() {
+        //[XXX: nothing at the moment]
     }
 
     protected void _end() {

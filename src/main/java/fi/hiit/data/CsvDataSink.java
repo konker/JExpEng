@@ -10,63 +10,115 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import fi.hiit.jexpeng.ExperimentRunContext;
 import fi.hiit.jexpeng.Result;
+import fi.hiit.jexpeng.Subject;
 
 
 public class CsvDataSink implements IDataSink {
-    private String mFileName;
-    private CSVWriter mWriter;
+    private ExperimentRunContext mExperimentRunContext;
+
+    private String mSubjectFileName;
+    private CSVWriter mSubjectWriter;
+    private String mResultFileName;
+    private CSVWriter mResultWriter;
     private final String mDataDir;
 
     public CsvDataSink(String dataDir) {
         mDataDir = dataDir;
     }
 
+    @Override
     public void init(ExperimentRunContext experimentRunContext) throws DataException {
+        mExperimentRunContext = experimentRunContext;
+
         // Create a writer with filename composed of args
         try {
-            mFileName = getFileName(mDataDir, experimentRunContext);
-            mWriter = new CSVWriter(new FileWriter(mFileName));
+            mSubjectFileName = getSubjectFileName(mDataDir);
+            mSubjectWriter = new CSVWriter(new FileWriter(mSubjectFileName));
+
+            mResultFileName = getResultFileName(mDataDir);
+            mResultWriter = new CSVWriter(new FileWriter(mResultFileName));
         }
         catch (IOException ex) {
             throw new DataException(ex);
         }
     }
 
-    public void write(Result result) throws DataException {
+    @Override
+    public void writeSubject(Subject subject) throws DataException {
         // Write everything in the result
-        String[] row = getRow(result);
-        mWriter.writeNext(row);
+        String[] row = getSubjectRow(subject);
+        mSubjectWriter.writeNext(row);
     }
 
+    @Override
+    public void writeResult(Result result) throws DataException {
+        // Write everything in the result
+        String[] row = getResultRow(result);
+        mResultWriter.writeNext(row);
+    }
+
+    @Override
     public void close() throws DataException {
         try {
-            mWriter.close();
+            mSubjectWriter.close();
+            mResultWriter.close();
         }
         catch (IOException ex) {
             throw new DataException(ex);
         }
     }
 
-    protected String getFileName(String dataDir, ExperimentRunContext experimentRunContext) {
+    protected String getSubjectFileName(String dataDir) {
         String fileName =
-                    "result-" +
-                    experimentRunContext.getExperiment().getId() + "-" +
-                    experimentRunContext.getSubject().getId() + "-" +
-                    experimentRunContext.getRunId() + "-" +
+                    "subject-" +
+                    mExperimentRunContext.getExperiment().getId() + "-" +
+                    mExperimentRunContext.getSubject().getId() + "-" +
+                    mExperimentRunContext.getRunId() + "-" +
                     (new Date()).getTime() +
                     ".csv";
         return (new File(mDataDir, fileName)).getAbsolutePath();
     }
 
-    protected String[] getRow(Result result) {
+    protected String getResultFileName(String dataDir) {
+        String fileName =
+                    "result-" +
+                    mExperimentRunContext.getExperiment().getId() + "-" +
+                    mExperimentRunContext.getSubject().getId() + "-" +
+                    mExperimentRunContext.getRunId() + "-" +
+                    (new Date()).getTime() +
+                    ".csv";
+        return (new File(mDataDir, fileName)).getAbsolutePath();
+    }
+
+    protected String[] getSubjectRow(Subject subject) {
+        // Basic data
+        List<String> row = new ArrayList<String>();
+        row.add(mExperimentRunContext.getExperiment().getId());
+        row.add(mExperimentRunContext.getExperiment().getName());
+        row.add(mExperimentRunContext.getSubject().getId());
+        row.add(mExperimentRunContext.getSubject().getName());
+        row.add(mExperimentRunContext.getRunId());
+
+        // Custom data fields
+        for (String key : subject.getData().keySet()) {
+            row.add(String.valueOf(subject.getData().get(key)));
+        }
+
+        String[] ret = new String[row.size()];
+        row.toArray(ret);
+
+        return ret;
+    }
+
+    protected String[] getResultRow(Result result) {
         // Basic data
         List<String> row = new ArrayList<String>();
         row.add(String.valueOf(result.getTimestamp().getTime()));
-        row.add(result.getExperimentRunContext().getExperiment().getId());
-        row.add(result.getExperimentRunContext().getExperiment().getName());
-        row.add(result.getExperimentRunContext().getSubject().getId());
-        row.add(result.getExperimentRunContext().getSubject().getName());
-        row.add(result.getExperimentRunContext().getRunId());
+        row.add(mExperimentRunContext.getExperiment().getId());
+        row.add(mExperimentRunContext.getExperiment().getName());
+        row.add(mExperimentRunContext.getSubject().getId());
+        row.add(mExperimentRunContext.getSubject().getName());
+        row.add(mExperimentRunContext.getRunId());
         row.add(result.getTaskGroup().getId());
         row.add(result.getTaskGroup().getName());
         row.add(result.getTask().getId());

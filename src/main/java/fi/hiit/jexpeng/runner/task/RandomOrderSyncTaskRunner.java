@@ -1,9 +1,9 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.task;
 
 import fi.hiit.util.Util;
 
 
-public class RandomOrderTaskRunner extends BaseTaskRunner implements ITaskRunner {
+public class RandomOrderSyncTaskRunner extends BaseSyncTaskRunner implements ITaskRunner {
     @Override
     protected int[] initTaskIndex(int numTasksToExecute) {
         // Initialize to default sequential index

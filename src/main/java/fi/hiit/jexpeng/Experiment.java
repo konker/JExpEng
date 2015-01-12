@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import fi.hiit.jexpeng.event.Event;
@@ -19,14 +20,24 @@ public class Experiment extends MetadataObject {
     protected boolean mStarted;
 
     public Experiment() {
+        _init();
+        setId(UUID.randomUUID().toString());
+    }
+
+    public Experiment(String id) {
+        _init();
+        setId(id);
+    }
+
+    private void _init() {
         mTaskGroups = new ArrayList<TaskGroup>();
         mEventListeners = new CopyOnWriteArraySet<IEventListener>();
     }
 
     /* Life cycle methods {{{ */
-    public void start(ExperimentRunContext experimentRunContext) throws StaleExperimentRunContext {
+    public void start(ExperimentRunContext experimentRunContext) throws StaleExperimentRunContextException {
         if (experimentRunContext.isEnded()) {
-            throw new StaleExperimentRunContext();
+            throw new StaleExperimentRunContextException();
         }
 
         mStarted = true;

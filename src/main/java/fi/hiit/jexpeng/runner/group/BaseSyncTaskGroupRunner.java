@@ -1,11 +1,11 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.group;
 
 import java.util.List;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
-import fi.hiit.jexpeng.TaskGroup;
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.IRunContextEventListener;
+import fi.hiit.jexpeng.runner.task.ITaskRunner;
 
 /**
  * BaseTaskGroupRunner
@@ -13,19 +13,14 @@ import fi.hiit.jexpeng.event.IRunContextEventListener;
  * @author Konrad Markus <konker@luxvelocitas.com>
  *
  */
-public abstract class BaseTaskGroupRunner implements ITaskGroupRunner {
-    private final List<ITaskRunner> mTaskRunners;
-
-    protected int mCurrentTaskGroupIndexPos;
-    protected int mNumTaskGroupsExecuted;
-    protected int mNumTaskGroupsToExecute;
-    protected int[] mTaskGroupIndex;
+public abstract class BaseSyncTaskGroupRunner extends AbstractTaskGroupRunner implements ITaskGroupRunner {
     protected IRunContextEventListener mRunContextEventListener;
 
-    public BaseTaskGroupRunner(List<ITaskRunner> taskRunners) {
-        mTaskRunners = taskRunners;
+    public BaseSyncTaskGroupRunner(List<ITaskRunner> taskRunners) {
+        super(taskRunners);
     }
 
+    @Override
     public void init(final ExperimentRunContext experimentRunContext) {
         mRunContextEventListener = new IRunContextEventListener() {
             public void trigger(Event event) {
@@ -53,6 +48,7 @@ public abstract class BaseTaskGroupRunner implements ITaskGroupRunner {
         experimentRunContext.addRunContextEventListener(mRunContextEventListener);
     }
 
+    @Override
     public void start(final ExperimentRunContext experimentRunContext) {
         mNumTaskGroupsToExecute = experimentRunContext.getExperiment().taskGroupSize();
         mNumTaskGroupsExecuted = 0;
@@ -66,42 +62,4 @@ public abstract class BaseTaskGroupRunner implements ITaskGroupRunner {
         // Start the execution process
         execute(experimentRunContext);
     }
-
-    public void execute(final ExperimentRunContext experimentRunContext) {
-        // Get the current task group according to the index
-        TaskGroup taskGroup = experimentRunContext
-                                    .getExperiment()
-                                    .getTaskGroup(mTaskGroupIndex[mCurrentTaskGroupIndexPos]);
-
-        // [FIXME: how to choose the task runner?]
-        ITaskRunner taskRunner = mTaskRunners
-                                    .get(mCurrentTaskGroupIndexPos);
-
-        // Initialize the current task runner
-        taskRunner.init(experimentRunContext);
-
-        // Start the current task group
-        taskGroup.start(experimentRunContext);
-
-        // Apply the task runner to the current task group
-        taskRunner.start(experimentRunContext, taskGroup);
-    }
-
-    /** Initialize the index */
-    protected int[] initTaskGroupIndex(int numTasksGroupsToExecute) {
-        int[] ret = new int[numTasksGroupsToExecute];
-
-        // Initialize index to sequential order by default
-        for (int i=0; i<ret.length; i++) {
-            ret[i] = i;
-        }
-
-        return ret;
-    }
-
-    /** Set the next index index value */
-    protected abstract int initTaskGroupIndexPos();
-
-    /** Set the next index index value */
-    protected abstract int nextTaskGroupIndexPos(int currentTaskGroupIndexPos, int numTaskGroupsExecuted);
 }

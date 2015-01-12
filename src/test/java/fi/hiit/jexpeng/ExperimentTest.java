@@ -22,8 +22,9 @@ public class ExperimentTest {
 
     @Before
     public void init() {
-        sExperiment = new Experiment();
+        sExperiment = new Experiment("TextExperiment");
         sEventListener = new IEventListener() {
+            @Override
             public void trigger(Event event) {
                 sCount++;
             }

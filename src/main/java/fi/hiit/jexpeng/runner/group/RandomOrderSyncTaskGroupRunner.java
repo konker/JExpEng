@@ -1,12 +1,13 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.group;
 
 import java.util.List;
 
+import fi.hiit.jexpeng.runner.task.ITaskRunner;
 import fi.hiit.util.Util;
 
 
-public class RandomOrderTaskGroupRunner extends BaseTaskGroupRunner implements ITaskGroupRunner {
-    public RandomOrderTaskGroupRunner(List<ITaskRunner> taskRunners) {
+public class RandomOrderSyncTaskGroupRunner extends BaseSyncTaskGroupRunner implements ITaskGroupRunner {
+    public RandomOrderSyncTaskGroupRunner(List<ITaskRunner> taskRunners) {
         super(taskRunners);
     }
 

@@ -3,6 +3,7 @@ package fi.hiit.jexpeng;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.EventType;
@@ -13,6 +14,16 @@ public class TaskGroup extends MetadataObject {
     protected List<Task> mTasks;
 
     public TaskGroup() {
+        _init();
+        setId(UUID.randomUUID().toString());
+    }
+
+    public TaskGroup(String id) {
+        _init();
+        setId(id);
+    }
+
+    private void _init() {
         mTasks = new ArrayList<Task>();
     }
 

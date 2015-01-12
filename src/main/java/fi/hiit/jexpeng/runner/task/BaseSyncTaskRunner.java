@@ -1,20 +1,15 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.task;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
-import fi.hiit.jexpeng.Task;
 import fi.hiit.jexpeng.TaskGroup;
 import fi.hiit.jexpeng.event.Event;
-import fi.hiit.jexpeng.event.IEventListener;
 import fi.hiit.jexpeng.event.IRunContextEventListener;
 
 
-public abstract class BaseTaskRunner implements ITaskRunner {
-    protected int mCurrentIndexPos;
-    protected int mNumTasksExecuted;
-    protected int mNumTasksToExecute;
-    protected int[] mTaskIndex;
+public abstract class BaseSyncTaskRunner extends AbstractTaskRunner implements ITaskRunner {
     protected IRunContextEventListener mRunContextEventListener;
 
+    @Override
     public void init(final ExperimentRunContext experimentRunContext) {
         mRunContextEventListener = new IRunContextEventListener() {
             public void trigger(Event event) {
@@ -43,6 +38,7 @@ public abstract class BaseTaskRunner implements ITaskRunner {
         experimentRunContext.addRunContextEventListener(mRunContextEventListener);
     }
 
+    @Override
     public void start(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
         mNumTasksToExecute = taskGroup.size();
         mNumTasksExecuted = 0;
@@ -56,29 +52,4 @@ public abstract class BaseTaskRunner implements ITaskRunner {
         // Start the execution process
         execute(experimentRunContext, taskGroup);
     }
-
-    public void execute(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
-        // Get the current task according to the index and start it
-        taskGroup
-            .get(mTaskIndex[mCurrentIndexPos])
-            .start(experimentRunContext, taskGroup);
-    }
-
-    /** Initialize the index */
-    protected int[] initTaskIndex(int numTasksToExecute) {
-        int[] ret = new int[numTasksToExecute];
-
-        // Initialize index to sequential order by default
-        for (int i=0; i<numTasksToExecute; i++) {
-            ret[i] = i;
-        }
-
-        return ret;
-    }
-
-    /** Set the next index index value */
-    protected abstract int initTaskIndexPos();
-
-    /** Set the next index index value */
-    protected abstract int nextTaskIndexPos(int currentTaskIndexPos, int numTasksExecuted);
 }

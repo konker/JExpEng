@@ -1,8 +1,9 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.task;
 
 
 
-public class SequentialTaskRunner extends BaseTaskRunner implements ITaskRunner {
+
+public class SequentialSyncTaskRunner extends BaseSyncTaskRunner implements ITaskRunner {
     @Override
     protected int initTaskIndexPos() {
         return 0;

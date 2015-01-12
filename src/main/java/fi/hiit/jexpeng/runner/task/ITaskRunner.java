@@ -1,7 +1,8 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.task;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
 import fi.hiit.jexpeng.TaskGroup;
+
 
 public interface ITaskRunner {
     public void init(final ExperimentRunContext experimentRunContext);

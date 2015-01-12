@@ -1,11 +1,13 @@
-package fi.hiit.jexpeng.runner;
+package fi.hiit.jexpeng.runner.group;
 
 import java.util.List;
 
+import fi.hiit.jexpeng.runner.task.ITaskRunner;
 
-public class SequentialTaskGroupRunner extends BaseTaskGroupRunner implements ITaskGroupRunner {
 
-    public SequentialTaskGroupRunner(List<ITaskRunner> taskRunners) {
+public class SequentialSyncTaskGroupRunner extends BaseSyncTaskGroupRunner implements ITaskGroupRunner {
+
+    public SequentialSyncTaskGroupRunner(List<ITaskRunner> taskRunners) {
         super(taskRunners);
     }
 
