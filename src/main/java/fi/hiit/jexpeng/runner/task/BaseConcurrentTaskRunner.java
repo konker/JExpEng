@@ -17,6 +17,7 @@ public abstract class BaseConcurrentTaskRunner extends AbstractTaskRunner implem
     @Override
     public void init(final ExperimentRunContext experimentRunContext) {
         mRunContextEventListener = new IRunContextEventListener() {
+            @Override
             public void trigger(Event event) {
                 //System.out.println("Ktask: " + this);
                 switch (event.getEventType()) {
@@ -52,6 +53,15 @@ public abstract class BaseConcurrentTaskRunner extends AbstractTaskRunner implem
         // Create a Set to hold TaskThread references
         mThreadGroup = new CopyOnWriteArraySet<TaskThread>();
 
+        createThreads(experimentRunContext, taskGroup);
+
+        startThreads();
+
+        joinThreads();
+
+    }
+
+    protected void createThreads(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
         // Create a TaskThread for each task and add it to the group
         for (int i=0; i<mNumTasksToExecute; i++) {
             Task task = getCurTask(taskGroup);
@@ -59,12 +69,16 @@ public abstract class BaseConcurrentTaskRunner extends AbstractTaskRunner implem
 
             mCurrentIndexPos = nextTaskIndexPos(mCurrentIndexPos, mNumTasksExecuted);
         }
+    }
 
+    protected void startThreads() {
         // Start all the TaskThreads
         for (TaskThread t : mThreadGroup) {
             t.start();
         }
+    }
 
+    protected void joinThreads() {
         // Join on all the TaskThreads
         for (TaskThread t : mThreadGroup) {
             try {
