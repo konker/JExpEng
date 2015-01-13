@@ -59,6 +59,7 @@ public abstract class BaseConcurrentTaskRunner extends AbstractTaskRunner implem
 
         joinThreads();
 
+        mThreadGroup.clear();
     }
 
     protected void createThreads(final ExperimentRunContext experimentRunContext, final TaskGroup taskGroup) {
