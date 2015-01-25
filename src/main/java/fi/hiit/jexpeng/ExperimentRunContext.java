@@ -3,8 +3,8 @@ package fi.hiit.jexpeng;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import fi.hiit.data.DataException;
-import fi.hiit.data.IDataSink;
+import fi.hiit.jexpeng.data.DataException;
+import fi.hiit.jexpeng.data.IDataSink;
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.IRunContextEventListener;
 

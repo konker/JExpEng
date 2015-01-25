@@ -1,4 +1,4 @@
-package fi.hiit.data;
+package fi.hiit.jexpeng.data;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,6 +13,10 @@ import fi.hiit.jexpeng.Result;
 import fi.hiit.jexpeng.Subject;
 
 
+/*[TODO]
+ * Write a header row?
+ * Fix the order of columns?
+ */
 public class CsvDataSink implements IDataSink {
     private ExperimentRunContext mExperimentRunContext;
 

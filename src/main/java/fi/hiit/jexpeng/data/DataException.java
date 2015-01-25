@@ -1,4 +1,4 @@
-package fi.hiit.data;
+package fi.hiit.jexpeng.data;
 
 
 public class DataException extends Exception {

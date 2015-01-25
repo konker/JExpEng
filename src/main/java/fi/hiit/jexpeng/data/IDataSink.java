@@ -1,4 +1,4 @@
-package fi.hiit.data;
+package fi.hiit.jexpeng.data;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
 import fi.hiit.jexpeng.Result;

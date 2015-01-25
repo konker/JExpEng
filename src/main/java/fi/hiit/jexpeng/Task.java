@@ -2,7 +2,7 @@ package fi.hiit.jexpeng;
 
 import java.util.UUID;
 
-import fi.hiit.data.DataException;
+import fi.hiit.jexpeng.data.DataException;
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.EventType;
 import fi.hiit.util.DataBundle;

@@ -3,9 +3,9 @@ package fi.hiit.jexpeng;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.hiit.data.CsvDataSink;
-import fi.hiit.data.DataException;
-import fi.hiit.data.IDataSink;
+import fi.hiit.jexpeng.data.CsvDataSink;
+import fi.hiit.jexpeng.data.DataException;
+import fi.hiit.jexpeng.data.IDataSink;
 import fi.hiit.jexpeng.event.Event;
 import fi.hiit.jexpeng.event.IEventListener;
 import fi.hiit.jexpeng.runner.experiment.IExperimentRunner;
