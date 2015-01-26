@@ -3,9 +3,11 @@ package fi.hiit.jexpeng;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.hiit.jexpeng.data.CsvDataSink;
+import fi.hiit.jexpeng.data.CsvResultDataSink;
+import fi.hiit.jexpeng.data.CsvSubjectDataSink;
 import fi.hiit.jexpeng.data.DataException;
-import fi.hiit.jexpeng.data.IDataSink;
+import fi.hiit.jexpeng.data.IResultDataSink;
+import fi.hiit.jexpeng.data.ISubjectDataSink;
 import fi.hiit.jexpeng.event.ExperimentEvent;
 import fi.hiit.jexpeng.event.IExperimentEventListener;
 import fi.hiit.jexpeng.runner.experiment.IExperimentRunner;
@@ -159,11 +161,13 @@ public class App {
         ExperimentRunContext experimentRunContext3 = new ExperimentRunContext(experiment1, subject3, runId3);
 
         try {
-            // Create a data sink
-            IDataSink csvDataSink1 = new CsvDataSink("./");
+            // Create a pair of data sinks
+            IResultDataSink csvResultDataSink1 = new CsvResultDataSink("./");
+            ISubjectDataSink csvSubjectDataSink1 = new CsvSubjectDataSink("./");
 
-            // Add a data sink to the run context
-            experimentRunContext1.addDataSink(csvDataSink1);
+            // Add a pair of data sinks to the run context
+            experimentRunContext1.addResultDataSink(csvResultDataSink1);
+            experimentRunContext1.addSubjectDataSink(csvSubjectDataSink1);
 
             // Write Subject data to the data sink
             experimentRunContext1.writeSubjectData();
@@ -171,11 +175,13 @@ public class App {
             // Run the experiment
             experimentRunner1.start(experimentRunContext1);
 
-            // Create a data sink
-            IDataSink csvDataSink2 = new CsvDataSink("./");
+            // Create a pair of data sinks
+            IResultDataSink csvResultDataSink2 = new CsvResultDataSink("./");
+            ISubjectDataSink csvSubjectDataSink2 = new CsvSubjectDataSink("./");
 
             // Add a data sink to the run context
-            experimentRunContext2.addDataSink(csvDataSink2);
+            experimentRunContext2.addResultDataSink(csvResultDataSink2);
+            experimentRunContext2.addSubjectDataSink(csvSubjectDataSink2);
 
             // Write Subject data to the data sink
             experimentRunContext2.writeSubjectData();
