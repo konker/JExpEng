@@ -4,34 +4,35 @@ import fi.hiit.jexpeng.ExperimentRunContext;
 import fi.hiit.jexpeng.Task;
 import fi.hiit.jexpeng.TaskGroup;
 
-public class Event {
-    private final EventType mEventType;
+
+public class ExperimentEvent {
+    private final ExperimentEventType mEventType;
     private final ExperimentRunContext mExperimentRunContext;
     private final TaskGroup mTaskGroup;
     private final Task mTask;
 
-    public Event(EventType eventType, ExperimentRunContext experimentRunContext, TaskGroup taskGroup, Task task) {
+    public ExperimentEvent(ExperimentEventType eventType, ExperimentRunContext experimentRunContext, TaskGroup taskGroup, Task task) {
         mEventType = eventType;
         mExperimentRunContext = experimentRunContext;
         mTaskGroup = taskGroup;
         mTask = task;
     }
 
-    public Event(EventType eventType, ExperimentRunContext experimentRunContext, TaskGroup taskGroup) {
+    public ExperimentEvent(ExperimentEventType eventType, ExperimentRunContext experimentRunContext, TaskGroup taskGroup) {
         mEventType = eventType;
         mExperimentRunContext = experimentRunContext;
         mTaskGroup = taskGroup;
         mTask = null;
     }
 
-    public Event(EventType eventType, ExperimentRunContext experimentRunContext) {
+    public ExperimentEvent(ExperimentEventType eventType, ExperimentRunContext experimentRunContext) {
         mEventType = eventType;
         mExperimentRunContext = experimentRunContext;
         mTaskGroup = null;
         mTask = null;
     }
 
-    public EventType getEventType() {
+    public ExperimentEventType getEventType() {
         return mEventType;
     }
 

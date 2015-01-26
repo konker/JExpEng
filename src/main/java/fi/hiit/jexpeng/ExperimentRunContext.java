@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import fi.hiit.jexpeng.data.DataException;
 import fi.hiit.jexpeng.data.IDataSink;
-import fi.hiit.jexpeng.event.Event;
+import fi.hiit.jexpeng.event.ExperimentEvent;
 import fi.hiit.jexpeng.event.IRunContextEventListener;
 
 
@@ -30,7 +30,7 @@ public class ExperimentRunContext {
         // Add a listener for the start and end of the experiment run
         addRunContextEventListener(new IRunContextEventListener() {
             @Override
-            public void trigger(Event event) {
+            public void trigger(ExperimentEvent event) {
                 switch (event.getEventType()) {
                     case EXPERIMENT_START:
                         _start();
@@ -92,7 +92,7 @@ public class ExperimentRunContext {
         mRunContextEventListeners.remove(eventListener);
     }
 
-    public void notifyRunContextEvent(Event event) {
+    public void notifyRunContextEvent(ExperimentEvent event) {
         // First notify the experiment for application listeners
         mExperiment.notifyEvent(event);
 

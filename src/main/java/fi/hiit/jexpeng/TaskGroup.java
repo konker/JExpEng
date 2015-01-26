@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import fi.hiit.jexpeng.event.Event;
-import fi.hiit.jexpeng.event.EventType;
+import fi.hiit.jexpeng.event.ExperimentEvent;
+import fi.hiit.jexpeng.event.ExperimentEventType;
 import fi.hiit.util.MetadataObject;
 
 
@@ -15,15 +15,20 @@ public class TaskGroup extends MetadataObject {
 
     public TaskGroup() {
         _init();
-        setId(UUID.randomUUID().toString());
     }
 
-    public TaskGroup(String id) {
+    public TaskGroup(long id) {
         _init();
         setId(id);
     }
 
+    public TaskGroup(String name) {
+        _init();
+        setName(name);
+    }
+
     private void _init() {
+        setUuid();
         mTasks = new ArrayList<Task>();
     }
 
@@ -73,11 +78,11 @@ public class TaskGroup extends MetadataObject {
 
     public void start(ExperimentRunContext experimentRunContext) {
         // Broadcast the event to the run context
-        experimentRunContext.notifyRunContextEvent(new Event(EventType.TASK_GROUP_START, experimentRunContext, this));
+        experimentRunContext.notifyRunContextEvent(new ExperimentEvent(ExperimentEventType.TASK_GROUP_START, experimentRunContext, this));
     }
 
     public void complete(ExperimentRunContext experimentRunContext) {
         // Broadcast the event to the run context
-        experimentRunContext.notifyRunContextEvent(new Event(EventType.TASK_GROUP_END, experimentRunContext, this));
+        experimentRunContext.notifyRunContextEvent(new ExperimentEvent(ExperimentEventType.TASK_GROUP_END, experimentRunContext, this));
     }
 }

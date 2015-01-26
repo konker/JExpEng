@@ -95,11 +95,15 @@ public class CsvDataSink implements IDataSink {
     }
 
     protected String[] getSubjectRow(Subject subject) {
-        // Basic data
         List<String> row = new ArrayList<String>();
-        row.add(mExperimentRunContext.getExperiment().getId());
+
+        // Experiment data
+        row.add(mExperimentRunContext.getExperiment().getUuid());
+        row.add(String.valueOf(mExperimentRunContext.getExperiment().getId()));
         row.add(mExperimentRunContext.getExperiment().getName());
-        row.add(mExperimentRunContext.getSubject().getId());
+
+        // Subject data
+        row.add(String.valueOf(mExperimentRunContext.getSubject().getId()));
         row.add(mExperimentRunContext.getSubject().getName());
         row.add(mExperimentRunContext.getRunId());
 
@@ -115,17 +119,30 @@ public class CsvDataSink implements IDataSink {
     }
 
     protected String[] getResultRow(Result result) {
-        // Basic data
         List<String> row = new ArrayList<String>();
+
+        // Basic data
         row.add(String.valueOf(result.getTimestamp().getTime()));
-        row.add(mExperimentRunContext.getExperiment().getId());
-        row.add(mExperimentRunContext.getExperiment().getName());
-        row.add(mExperimentRunContext.getSubject().getId());
-        row.add(mExperimentRunContext.getSubject().getName());
         row.add(mExperimentRunContext.getRunId());
-        row.add(result.getTaskGroup().getId());
+
+        // Experiment data
+        row.add(mExperimentRunContext.getExperiment().getUuid());
+        row.add(String.valueOf(mExperimentRunContext.getExperiment().getId()));
+        row.add(mExperimentRunContext.getExperiment().getName());
+
+        // Subject data
+        row.add(mExperimentRunContext.getSubject().getUuid());
+        row.add(String.valueOf(mExperimentRunContext.getSubject().getId()));
+        row.add(mExperimentRunContext.getSubject().getName());
+
+        // TaskGroup data
+        row.add(result.getTaskGroup().getUuid());
+        row.add(String.valueOf(result.getTaskGroup().getId()));
         row.add(result.getTaskGroup().getName());
-        row.add(result.getTask().getId());
+
+        // Task data
+        row.add(result.getTask().getUuid());
+        row.add(String.valueOf(result.getTask().getId()));
         row.add(result.getTask().getName());
 
         // Custom data fields

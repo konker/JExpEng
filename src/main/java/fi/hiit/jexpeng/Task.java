@@ -3,8 +3,8 @@ package fi.hiit.jexpeng;
 import java.util.UUID;
 
 import fi.hiit.jexpeng.data.DataException;
-import fi.hiit.jexpeng.event.Event;
-import fi.hiit.jexpeng.event.EventType;
+import fi.hiit.jexpeng.event.ExperimentEvent;
+import fi.hiit.jexpeng.event.ExperimentEventType;
 import fi.hiit.util.DataBundle;
 import fi.hiit.util.MetadataObject;
 
@@ -14,15 +14,20 @@ public class Task extends MetadataObject {
 
     public Task() {
         _init();
-        setId(UUID.randomUUID().toString());
     }
 
-    public Task(String id) {
+    public Task(long id) {
         _init();
         setId(id);
     }
 
+    public Task(String name) {
+        _init();
+        setName(name);
+    }
+
     private void _init() {
+        setUuid();
         mDefinition = new DataBundle();
     }
 
@@ -32,12 +37,12 @@ public class Task extends MetadataObject {
 
     public void start(ExperimentRunContext experimentRunContext, TaskGroup taskGroup) {
         // Broadcast the event to the run context
-        experimentRunContext.notifyRunContextEvent(new Event(EventType.TASK_START, experimentRunContext, taskGroup, this));
+        experimentRunContext.notifyRunContextEvent(new ExperimentEvent(ExperimentEventType.TASK_START, experimentRunContext, taskGroup, this));
     }
 
     public void complete(ExperimentRunContext experimentRunContext, TaskGroup taskGroup) {
         // Broadcast the event to the run context
-        experimentRunContext.notifyRunContextEvent(new Event(EventType.TASK_END, experimentRunContext, taskGroup, this));
+        experimentRunContext.notifyRunContextEvent(new ExperimentEvent(ExperimentEventType.TASK_END, experimentRunContext, taskGroup, this));
     }
 
     public Task addResult(Result result) throws DataException {

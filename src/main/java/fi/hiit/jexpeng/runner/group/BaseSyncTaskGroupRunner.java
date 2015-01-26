@@ -3,7 +3,7 @@ package fi.hiit.jexpeng.runner.group;
 import java.util.List;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
-import fi.hiit.jexpeng.event.Event;
+import fi.hiit.jexpeng.event.ExperimentEvent;
 import fi.hiit.jexpeng.event.IRunContextEventListener;
 import fi.hiit.jexpeng.runner.task.ITaskRunner;
 
@@ -23,7 +23,7 @@ public abstract class BaseSyncTaskGroupRunner extends AbstractTaskGroupRunner im
     @Override
     public void init(final ExperimentRunContext experimentRunContext) {
         mRunContextEventListener = new IRunContextEventListener() {
-            public void trigger(Event event) {
+            public void trigger(ExperimentEvent event) {
                 //System.out.println("Kgroup: " + this + ": " + event.getEventType().toString());
                 switch (event.getEventType()) {
                     case TASK_GROUP_END:

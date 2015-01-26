@@ -1,6 +1,6 @@
 package fi.hiit.jexpeng.event;
 
 
-public interface IRunContextEventListener {
+public interface IExperimentEventListener {
     public void trigger(ExperimentEvent event);
 }

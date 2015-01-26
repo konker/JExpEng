@@ -2,7 +2,7 @@ package fi.hiit.jexpeng.runner.task;
 
 import fi.hiit.jexpeng.ExperimentRunContext;
 import fi.hiit.jexpeng.TaskGroup;
-import fi.hiit.jexpeng.event.Event;
+import fi.hiit.jexpeng.event.ExperimentEvent;
 import fi.hiit.jexpeng.event.IRunContextEventListener;
 
 
@@ -12,7 +12,7 @@ public abstract class BaseSyncTaskRunner extends AbstractTaskRunner implements I
     @Override
     public void init(final ExperimentRunContext experimentRunContext) {
         mRunContextEventListener = new IRunContextEventListener() {
-            public void trigger(Event event) {
+            public void trigger(ExperimentEvent event) {
                 //System.out.println("Ktask: " + this);
                 switch (event.getEventType()) {
                     case TASK_END:

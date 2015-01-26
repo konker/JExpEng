@@ -11,21 +11,21 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import fi.hiit.jexpeng.event.Event;
-import fi.hiit.jexpeng.event.IEventListener;
+import fi.hiit.jexpeng.event.ExperimentEvent;
+import fi.hiit.jexpeng.event.IExperimentEventListener;
 
 
 public class ExperimentTest {
     private static Experiment sExperiment;
-    private static IEventListener sEventListener;
+    private static IExperimentEventListener sEventListener;
     private static int sCount;
 
     @Before
     public void init() {
         sExperiment = new Experiment("TextExperiment");
-        sEventListener = new IEventListener() {
+        sEventListener = new IExperimentEventListener() {
             @Override
-            public void trigger(Event event) {
+            public void trigger(ExperimentEvent event) {
                 sCount++;
             }
         };
@@ -68,7 +68,7 @@ public class ExperimentTest {
         sExperiment.addEventListener(sEventListener);
         assertEquals(1, sExperiment.mEventListeners.size());
 
-        Event event = new Event(null, null);
+        ExperimentEvent event = new ExperimentEvent(null, null);
 
         assertEquals(0, sCount);
         sExperiment.notifyEvent(event);

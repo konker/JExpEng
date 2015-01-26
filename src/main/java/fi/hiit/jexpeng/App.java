@@ -6,8 +6,8 @@ import java.util.List;
 import fi.hiit.jexpeng.data.CsvDataSink;
 import fi.hiit.jexpeng.data.DataException;
 import fi.hiit.jexpeng.data.IDataSink;
-import fi.hiit.jexpeng.event.Event;
-import fi.hiit.jexpeng.event.IEventListener;
+import fi.hiit.jexpeng.event.ExperimentEvent;
+import fi.hiit.jexpeng.event.IExperimentEventListener;
 import fi.hiit.jexpeng.runner.experiment.IExperimentRunner;
 import fi.hiit.jexpeng.runner.experiment.SimpleExperimentRunner;
 import fi.hiit.jexpeng.runner.group.ITaskGroupRunner;
@@ -56,9 +56,9 @@ public class App {
         experiment1.addTaskGroup(taskGroup2);
 
         // Add some event handlers to the experiment
-        experiment1.addEventListener(new IEventListener() {
+        experiment1.addEventListener(new IExperimentEventListener() {
             @Override
-            public void trigger(Event event) {
+            public void trigger(ExperimentEvent event) {
                 switch (event.getEventType()) {
                     case EXPERIMENT_START:
                         System.out.println("Experiment Start: " + event.getExperimentRunContext().getExperiment().getName() + "\n");
