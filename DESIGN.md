@@ -8,6 +8,33 @@ Experiment/Field Test Framework in Java
 - Should be extensible for custom logging and metadata requirements
 
 
+## TODO
+- DOCS!
+    - Javadocs
+
+- TESTS!
+    - Look into best way of doing this
+    - Unit tests
+        - DataBundle
+        - Other classes
+    - Integration tests
+        - For running combinations of classes
+- Name
+    - IS JExpEng a good name?
+    - ExpEng
+        - This is better?
+        - Also means a bunch of other things
+    - ExperimentEngine
+        - In use by http://www.experimentengine.com/
+    - ExpEngine
+        - Kind of in use by http://exp-engine.sourceforge.net
+    - EEngine
+    - EEng
+    - Experimentor
+
+- Logo
+    - Gay, I know.
+
 ## Notes
 https://facebook.github.io/planout/
 - UniformChoice(choices=['foo', 'bar'])
