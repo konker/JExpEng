@@ -72,7 +72,7 @@ public class TaskGroup extends MetadataObject {
         mTasks.set(i, task);
     }
 
-    public Iterator<Task> iterator() {
+    public Iterator<Task> taskIterator() {
        return mTasks.iterator();
     }
 
