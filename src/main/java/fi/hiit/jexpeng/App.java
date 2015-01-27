@@ -1,5 +1,6 @@
 package fi.hiit.jexpeng;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,9 @@ import fi.hiit.jexpeng.runner.task.RandomOrderConcurrentTaskRunner;
 import fi.hiit.jexpeng.runner.task.RandomOrderSyncTaskRunner;
 import fi.hiit.jexpeng.runner.task.SequentialConcurrentTaskRunner;
 import fi.hiit.jexpeng.runner.task.SequentialSyncTaskRunner;
+import fi.hiit.jexpeng.serialize.ByteArrayStreamSerializationSink;
+import fi.hiit.jexpeng.serialize.ISerializer;
+import fi.hiit.jexpeng.serialize.dummy.DummySerializer;
 
 
 public class App {
@@ -205,7 +209,6 @@ public class App {
             ex.printStackTrace();
         }
 
-        /*
         // Serialize Experiment 1
         ByteArrayStreamSerializationSink sink = new ByteArrayStreamSerializationSink();
         ISerializer serializer = new DummySerializer();
@@ -219,7 +222,5 @@ public class App {
         catch (IOException ex) {
             ex.printStackTrace();
         }
-        */
-
     }
 }
