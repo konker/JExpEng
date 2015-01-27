@@ -1,4 +1,4 @@
-package fi.hiit.jexpeng.data;
+package fi.hiit.jexpeng.data.csv;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,6 +10,8 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVWriter;
 import fi.hiit.jexpeng.ExperimentRunContext;
 import fi.hiit.jexpeng.Result;
+import fi.hiit.jexpeng.data.DataException;
+import fi.hiit.jexpeng.data.IResultDataSink;
 
 
 /*[TODO]

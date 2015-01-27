@@ -3,11 +3,11 @@ package fi.hiit.jexpeng;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.hiit.jexpeng.data.CsvResultDataSink;
-import fi.hiit.jexpeng.data.CsvSubjectDataSink;
 import fi.hiit.jexpeng.data.DataException;
 import fi.hiit.jexpeng.data.IResultDataSink;
 import fi.hiit.jexpeng.data.ISubjectDataSink;
+import fi.hiit.jexpeng.data.csv.CsvResultDataSink;
+import fi.hiit.jexpeng.data.csv.CsvSubjectDataSink;
 import fi.hiit.jexpeng.event.ExperimentEvent;
 import fi.hiit.jexpeng.event.IExperimentEventListener;
 import fi.hiit.jexpeng.runner.experiment.IExperimentRunner;
@@ -26,15 +26,18 @@ public class App {
         // Create an experiment
         Experiment experiment1 = new Experiment("Exp1");
         experiment1.setName("Experiment 1");
+        experiment1.getMetadata().putFloat("FooF", 0.5f);
 
         // Create a TaskGroup
         TaskGroup taskGroup1 = new TaskGroup("tg-t1");
         taskGroup1.setName("Training Tasks");
+        taskGroup1.getMetadata().putChar("BarC", 'K');
 
         // Create and add some tasks
         for (int i=0; i<3; i++) {
             Task t = new Task("t" + i);
             t.setName("Training Task " + i);
+            t.getMetadata().putBoolean("QuxB", true);
             t.getDefinition().putInt("dummy_param", i);
             taskGroup1.add(t);
         }
@@ -189,7 +192,7 @@ public class App {
             // Try to run the experiment again
             experimentRunner1.start(experimentRunContext2);
 
-            // Try to run the experiment again (should fail)
+            // Try to run the experiment again
             experimentRunner2.start(experimentRunContext3);
 
             // Try to run the experiment again (should fail)
@@ -201,5 +204,22 @@ public class App {
         catch (StaleExperimentRunContextException ex) {
             ex.printStackTrace();
         }
+
+        /*
+        // Serialize Experiment 1
+        ByteArrayStreamSerializationSink sink = new ByteArrayStreamSerializationSink();
+        ISerializer serializer = new DummySerializer();
+
+        serializer.init(sink);
+
+        try {
+            serializer.serialize(experiment1);
+            System.out.println(new String(sink.toByteArray()));
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        */
+
     }
 }
