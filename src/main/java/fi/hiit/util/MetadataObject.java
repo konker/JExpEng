@@ -1,6 +1,8 @@
 package fi.hiit.util;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 /**
@@ -17,9 +19,16 @@ import java.util.UUID;
  *
  */
 public abstract class MetadataObject {
-    private static final String UUID_KEY = "uuid";
-    private static final String ID_KEY = "id";
-    private static final String NAME_KEY = "name";
+    public static final String UUID_KEY = "uuid";
+    public static final String ID_KEY = "id";
+    public static final String NAME_KEY = "name";
+    public static final Set<String> SPECIAL_KEYS = new CopyOnWriteArraySet<String>();
+
+    static {
+        SPECIAL_KEYS.add(UUID_KEY);
+        SPECIAL_KEYS.add(ID_KEY);
+        SPECIAL_KEYS.add(NAME_KEY);
+    }
 
     protected DataBundle mMetadata;
 
