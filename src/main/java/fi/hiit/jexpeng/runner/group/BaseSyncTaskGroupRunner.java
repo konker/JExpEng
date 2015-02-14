@@ -22,22 +22,17 @@ public abstract class BaseSyncTaskGroupRunner extends AbstractTaskGroupRunner im
 
     @Override
     public void init(final ExperimentRunContext experimentRunContext) {
+        mCurrentStep = TaskGroupStep.NOT_STARTED;
+
         mRunContextEventListener = new IRunContextEventListener() {
+            @Override
             public void trigger(ExperimentEvent event) {
                 //System.out.println("Kgroup: " + this + ": " + event.getEventType().toString());
                 switch (event.getEventType()) {
                     case TASK_GROUP_END:
                         mNumTaskGroupsExecuted++;
-
-                        if (mNumTaskGroupsExecuted < mNumTaskGroupsToExecute) {
-                            mCurrentTaskGroupIndexPos =
-                                    nextTaskGroupIndexPos(mCurrentTaskGroupIndexPos, mNumTaskGroupsExecuted);
-                            execute(experimentRunContext);
-                        }
-                        else {
-                            // End of the Experiment
-                            experimentRunContext.getExperiment().complete(experimentRunContext);
-                        }
+                        nextStep(experimentRunContext);
+                        break;
 
                     default:
                         return;
@@ -52,14 +47,11 @@ public abstract class BaseSyncTaskGroupRunner extends AbstractTaskGroupRunner im
     public void start(final ExperimentRunContext experimentRunContext) {
         mNumTaskGroupsToExecute = experimentRunContext.getExperiment().taskGroupSize();
         mNumTaskGroupsExecuted = 0;
+        mCurrentTaskGroupIndexPos = START_INDEX;
 
         // Initialize the index, allow subclass to override this
         mTaskGroupIndex = initTaskGroupIndex(mNumTaskGroupsToExecute);
 
-        // Fetch the starting position, must be implemented by the subclass
-        mCurrentTaskGroupIndexPos = initTaskGroupIndexPos();
-
-        // Start the execution process
-        execute(experimentRunContext);
+        nextStep(experimentRunContext);
     }
 }
