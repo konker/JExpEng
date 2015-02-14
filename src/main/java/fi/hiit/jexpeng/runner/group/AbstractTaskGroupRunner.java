@@ -22,6 +22,7 @@ public abstract class AbstractTaskGroupRunner implements ITaskGroupRunner {
         GET_TASK_GROUP_INDEX,
         START_TASK_GROUP,
         START_TASK_RUNNER,
+        LAST_TASK_GROUP,
         ENDED
     }
 
@@ -50,14 +51,8 @@ public abstract class AbstractTaskGroupRunner implements ITaskGroupRunner {
     public void execute(final ExperimentRunContext experimentRunContext) {
         switch (mCurrentStep) {
             case GET_TASK_GROUP_INDEX:
-                if (mCurrentTaskGroupIndexPos == START_INDEX) {
-                    // Fetch the starting position, must be implemented by the subclass
-                    mCurrentTaskGroupIndexPos = initTaskGroupIndexPos();
-                }
-                else {
-                    mCurrentTaskGroupIndexPos =
-                            nextTaskGroupIndexPos(mCurrentTaskGroupIndexPos, mNumTaskGroupsExecuted);
-                }
+                mCurrentTaskGroupIndexPos =
+                        nextTaskGroupIndexPos(mCurrentTaskGroupIndexPos, mNumTaskGroupsExecuted);
                 break;
 
             case START_TASK_GROUP:
@@ -79,6 +74,10 @@ public abstract class AbstractTaskGroupRunner implements ITaskGroupRunner {
 
                 // Apply the task runner to the current task group
                 taskRunner.start(experimentRunContext, getCurTaskGroup(experimentRunContext.getExperiment()));
+                break;
+
+            case LAST_TASK_GROUP:
+                // Nothing
                 break;
 
             case ENDED:
@@ -103,6 +102,7 @@ public abstract class AbstractTaskGroupRunner implements ITaskGroupRunner {
 
     @Override
     public void nextStep(ExperimentRunContext experimentRunContext) {
+System.out.println("NEXT STEP (TG): " + mCurrentStep);
         mCurrentStep = _getNextStep(mCurrentStep);
         execute(experimentRunContext);
     }
@@ -129,12 +129,15 @@ public abstract class AbstractTaskGroupRunner implements ITaskGroupRunner {
                 return TaskGroupStep.START_TASK_RUNNER;
 
             case START_TASK_RUNNER:
-                if (mNumTaskGroupsExecuted >= mNumTaskGroupsToExecute) {
-                    return TaskGroupStep.ENDED;
+                if (mNumTaskGroupsExecuted == mNumTaskGroupsToExecute) {
+                    return TaskGroupStep.LAST_TASK_GROUP;
                 }
                 else {
                     return TaskGroupStep.GET_TASK_GROUP_INDEX;
                 }
+
+            case LAST_TASK_GROUP:
+                return TaskGroupStep.ENDED;
 
             default:
                 System.out.println("TaskGroupRunner: _getNextStep: ERROR: Bad step: " + mCurrentStep);
@@ -157,10 +160,6 @@ public abstract class AbstractTaskGroupRunner implements ITaskGroupRunner {
 
         return ret;
     }
-
-    /** Set the next index index value */
-    //[FIXME: do we need this?]
-    protected abstract int initTaskGroupIndexPos();
 
     /** Set the next index index value */
     protected abstract int nextTaskGroupIndexPos(int currentTaskGroupIndexPos, int numTaskGroupsExecuted);

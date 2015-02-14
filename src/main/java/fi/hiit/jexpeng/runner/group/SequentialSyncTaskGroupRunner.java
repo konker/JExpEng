@@ -13,12 +13,10 @@ public class SequentialSyncTaskGroupRunner extends BaseSyncTaskGroupRunner imple
     }
 
     @Override
-    protected int initTaskGroupIndexPos() {
-        return 0;
-    }
-
-    @Override
     protected int nextTaskGroupIndexPos(int currentTaskGroupIndexPos, int numTaskGroupsExecuted) {
+        if (currentTaskGroupIndexPos == START_INDEX) {
+            return 0;
+        }
         return currentTaskGroupIndexPos + 1;
     }
 }
