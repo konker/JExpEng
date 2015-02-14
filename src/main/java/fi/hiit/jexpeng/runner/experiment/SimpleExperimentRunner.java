@@ -7,9 +7,12 @@ import fi.hiit.jexpeng.runner.group.ITaskGroupRunner;
 
 public class SimpleExperimentRunner implements IExperimentRunner {
     private final ITaskGroupRunner mTaskGroupRunner;
+    private boolean mStepFlag;
+    private boolean mAutoStep;
 
     public SimpleExperimentRunner(ITaskGroupRunner taskGroupRunner) {
         mTaskGroupRunner = taskGroupRunner;
+        mAutoStep = false;
     }
 
     @Override
@@ -20,8 +23,10 @@ public class SimpleExperimentRunner implements IExperimentRunner {
         // Start the execution process
         execute(experimentRunContext);
 
-        // Apply the task group runner to the the experiment task groups
-        mTaskGroupRunner.start(experimentRunContext);
+        mStepFlag = true;
+        if (mAutoStep) {
+            nextStep(experimentRunContext);
+        }
     }
 
     @Override
@@ -29,5 +34,28 @@ public class SimpleExperimentRunner implements IExperimentRunner {
         experimentRunContext
                 .getExperiment()
                 .start(experimentRunContext);
+    }
+
+    @Override
+    public boolean hasStep() {
+        return mStepFlag;
+    }
+
+    @Override
+    public void nextStep(ExperimentRunContext experimentRunContext) {
+        // Apply the task group runner to the the experiment task groups
+        mTaskGroupRunner.start(experimentRunContext);
+
+        mStepFlag = false;
+    }
+
+    @Override
+    public boolean isAutoStep() {
+        return mAutoStep;
+    }
+
+    @Override
+    public void setAutoStep(boolean autoStep) {
+        mAutoStep = autoStep;
     }
 }
